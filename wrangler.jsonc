@@ -4,6 +4,11 @@
 	"name": "vopa-website",
 	"compatibility_date": "2026-09-27",
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	// Used by Cloudflare Workers Builds (Git integration) so the OpenNext
+	// bundle is built before `wrangler deploy` runs.
+	"build": {
+		"command": "npm run build:cf"
+	},
 	"assets": {
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
