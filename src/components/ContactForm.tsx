@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { PaperPlaneTilt } from "@phosphor-icons/react";
+import { CONTACT_FORM_ID, submitForm } from "@/lib/forms";
 
 type FormErrors = {
   name?: string;
@@ -14,7 +15,9 @@ type FormErrors = {
 export function ContactForm() {
   const reduce = useReducedMotion();
   const [submitted, setSubmitted] = useState(false);
+  const [viaMailto, setViaMailto] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
 
   function validate(form: HTMLFormElement): FormErrors {
@@ -35,7 +38,7 @@ export function ContactForm() {
     return e;
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const validationErrors = validate(form);
@@ -46,12 +49,23 @@ export function ContactForm() {
     }
 
     setErrors({});
+    setSubmitError(null);
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 1200);
+    const result = await submitForm(form, {
+      formId: CONTACT_FORM_ID,
+      subject: "Website enquiry from the contact form",
+    });
+
+    setLoading(false);
+
+    if (!result.ok) {
+      setSubmitError(result.message);
+      return;
+    }
+
+    setViaMailto(result.via === "mailto");
+    setSubmitted(true);
   }
 
   function fieldClasses(field: keyof FormErrors) {
@@ -72,8 +86,9 @@ export function ContactForm() {
           Message Sent
         </h3>
         <p className="text-sm text-gray">
-          Thank you for reaching out. We will get back to you within 1-2
-          business days.
+          {viaMailto
+            ? "Your email app should have opened with the message ready to send. If it didn't, write to us directly and we'll pick it up from there."
+            : "Thank you for reaching out. We will get back to you within 1-2 business days."}
         </p>
       </div>
     );
@@ -90,6 +105,15 @@ export function ContactForm() {
       className="space-y-5"
       aria-label="Contact form"
     >
+      <input
+        type="text"
+        name="_gotcha"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label
@@ -190,6 +214,21 @@ export function ContactForm() {
           </p>
         )}
       </div>
+
+      {submitError && (
+        <p
+          role="alert"
+          className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700"
+        >
+          {submitError}{" "}
+          <a
+            href="mailto:info@vopa.edu"
+            className="font-semibold underline underline-offset-2"
+          >
+            info@vopa.edu
+          </a>
+        </p>
+      )}
 
       <button
         type="submit"

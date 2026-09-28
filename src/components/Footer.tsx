@@ -1,10 +1,13 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { EnvelopeSimple, Phone, MapPin } from "@phosphor-icons/react";
+import { site } from "@/lib/site";
 
 const quickLinks = [
   { href: "/about", label: "About Us" },
   { href: "/academics", label: "Academics" },
+  { href: "/faculty", label: "Faculty" },
   { href: "/admissions", label: "Admissions" },
   { href: "/contact", label: "Contact" },
 ];
@@ -16,9 +19,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img
+              <Image
                 src="/logo.jpg"
                 alt="Valley of Peace SDA Academy logo"
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full object-cover"
               />
               <div>
@@ -61,19 +66,34 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <MapPin size={18} className="text-gold mt-0.5 shrink-0" />
-                <span className="text-sm text-white/80">
-                  Arias Road
-                  <br />
-                  Valley of Peace
-                </span>
+                <address className="not-italic">
+                  <Link
+                    href="/contact/"
+                    className="text-sm text-white/80 hover:text-gold transition-colors"
+                  >
+                    {site.address.street}
+                    <br />
+                    {site.address.locality}, {site.address.countryName}
+                  </Link>
+                </address>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="text-gold shrink-0" />
-                <span className="text-sm text-white/80">604-1198</span>
+                <a
+                  href={`tel:${site.phoneE164}`}
+                  className="text-sm text-white/80 hover:text-gold transition-colors"
+                >
+                  {site.phone}
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <EnvelopeSimple size={18} className="text-gold shrink-0" />
-                <span className="text-sm text-white/80">info@vopa.edu</span>
+                <a
+                  href={`mailto:${site.email}`}
+                  className="text-sm text-white/80 hover:text-gold transition-colors"
+                >
+                  {site.email}
+                </a>
               </li>
             </ul>
           </div>

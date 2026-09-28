@@ -1,21 +1,50 @@
+import Image from "next/image";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PageCta } from "@/components/PageCta";
 import { Icon } from "@/components/Icon";
 import { ElectiveDeck } from "@/components/ElectiveDeck";
+import { CoreSubjects } from "@/components/CoreSubjects";
+import { JsonLd } from "@/components/JsonLd";
+import { buildMetadata, pageImages } from "@/lib/metadata";
+import { breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Academics — Valley of Peace SDA Academy",
+export const metadata = buildMetadata({
+  title: "Academics & Curriculum",
   description:
-    "Explore the academic program at Valley of Peace SDA Academy. A shared foundation in Forms 1 and 2, then Business or Science pathways from Form 3.",
-};
+    "Explore the academic programme at Valley of Peace SDA Academy in Belize: a shared core in Forms 1-2, then Business or Science pathways from Form 3, plus electives and athletics.",
+  path: "/academics/",
+  image: pageImages.academics,
+});
 
 const coreSubjects = [
+  {
+    icon: <Icon name="HandsPraying" size={24} />,
+    title: "Bible",
+    description:
+      "Daily Bible class that grounds our learning in faith and shapes character and values.",
+    marker: "Daily",
+    featured: true,
+  },
+  {
+    icon: <Icon name="Plant" size={24} />,
+    title: "Agriculture",
+    description:
+      "A hands-on program in every form — planting, growing, and understanding where food comes from.",
+    marker: "Every form",
+    featured: true,
+  },
   {
     icon: <Icon name="BookOpenText" size={22} />,
     title: "English",
     description:
       "Reading, writing, and language arts that build clear communication and confident expression.",
+  },
+  {
+    icon: <Icon name="MathOperations" size={22} />,
+    title: "Mathematics",
+    description:
+      "Foundations in numeracy, problem solving, and logical thinking that grow with every form.",
   },
   {
     icon: <Icon name="ComputerTower" size={22} />,
@@ -30,28 +59,10 @@ const coreSubjects = [
       "Understanding our nation's history, geography, culture, and heritage — with pride and perspective.",
   },
   {
-    icon: <Icon name="HandsPraying" size={22} />,
-    title: "Bible",
-    description:
-      "Daily Bible class that grounds our learning in faith and shapes character and values.",
-  },
-  {
-    icon: <Icon name="MathOperations" size={22} />,
-    title: "Mathematics",
-    description:
-      "Foundations in numeracy, problem solving, and logical thinking that grow with every form.",
-  },
-  {
     icon: <Icon name="BookOpen" size={22} />,
     title: "Reading Comprehension",
     description:
       "Dedicated reading practice that builds fluency, vocabulary, and a lifelong love of books.",
-  },
-  {
-    icon: <Icon name="Plant" size={22} />,
-    title: "Agriculture",
-    description:
-      "A hands-on program in every form — planting, growing, and understanding where food comes from.",
   },
 ];
 
@@ -130,6 +141,7 @@ const streams = [
 export default function AcademicsPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "Academics", path: "/academics/" }])} />
       <PageHeader
         eyebrow="Academics"
         title="A shared foundation, then your path"
@@ -138,34 +150,7 @@ export default function AcademicsPage() {
         imageAlt="Students learning at Valley of Peace"
       />
 
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            eyebrow="Forms 1 & 2"
-            title="The common core"
-            description="In Forms 1 and 2, every student takes the same foundation of subjects. This shared core makes sure no one misses the basics — and it means a complete schedule of learning for everyone. Agriculture is part of the program in every form."
-            align="center"
-          />
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {coreSubjects.map((subject) => (
-              <div
-                key={subject.title}
-                className="rounded-2xl border border-blue-deep/10 bg-white p-6 hover:border-gold/50 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300"
-              >
-                <div className="w-11 h-11 rounded-xl bg-blue-deep/10 flex items-center justify-center text-blue-deep mb-4">
-                  {subject.icon}
-                </div>
-                <h3 className="text-base font-semibold text-charcoal mb-1.5">
-                  {subject.title}
-                </h3>
-                <p className="text-sm text-gray leading-relaxed">
-                  {subject.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CoreSubjects subjects={coreSubjects} />
 
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -249,11 +234,13 @@ export default function AcademicsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
-                <img
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
+                <Image
                   src="/sports.jpg"
                   alt="Valley of Peace students competing in sports"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 hidden md:block bg-gold text-charcoal rounded-2xl px-6 py-5 shadow-lg rotate-2">

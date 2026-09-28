@@ -1,17 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/academics", label: "Academics" },
-  { href: "/admissions", label: "Admissions" },
-  { href: "/contact", label: "Contact" },
-];
+import { primaryNav } from "@/lib/site";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -20,9 +14,12 @@ export function Navbar() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-blue-deep/10">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-18 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
-          <img
+          <Image
             src="/logo.jpg"
             alt="Valley of Peace SDA Academy logo"
+            width={40}
+            height={40}
+            priority
             className="w-10 h-10 rounded-full object-cover"
           />
           <div className="hidden sm:block">
@@ -36,7 +33,8 @@ export function Navbar() {
         </Link>
 
         <ul className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => (
+                {primaryNav.map((link) => (
+
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -75,7 +73,8 @@ export function Navbar() {
             className="lg:hidden border-t border-blue-deep/10 bg-white overflow-hidden"
           >
             <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
+          {primaryNav.map((link) => (
+
                 <Link
                   key={link.href}
                   href={link.href}

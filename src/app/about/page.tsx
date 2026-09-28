@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PageCta } from "@/components/PageCta";
@@ -5,12 +6,17 @@ import { Timeline } from "@/components/Timeline";
 import { StatsBand } from "@/components/StatsBand";
 import { TestimonialCard } from "@/components/TestimonialCard";
 import { Icon } from "@/components/Icon";
+import { JsonLd } from "@/components/JsonLd";
+import { buildMetadata, pageImages } from "@/lib/metadata";
+import { breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "About Us — Valley of Peace SDA Academy",
+export const metadata = buildMetadata({
+  title: "About Our School",
   description:
-    "A community built on faith and purpose since 2006. Meet the people, values, and story behind Valley of Peace SDA Academy.",
-};
+    "Valley of Peace SDA Academy is a Christ-centred school in Valley of Peace, Belize, founded in 2006. Meet our mission, values, leadership, and community.",
+  path: "/about/",
+  image: pageImages.about,
+});
 
 const values = [
   {
@@ -51,13 +57,14 @@ const leadership = [
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "About", path: "/about/" }])} />
       <PageHeader
         eyebrow="About Us"
         title="A community built on faith and purpose"
         subtitle="Since 2006, families have found belonging here. Meet the people, the values, and the story behind Valley of Peace SDA Academy."
         imageUrl="/community.jpg"
         imageAlt="Valley of Peace students together on a school outing"
-        imageOpacity={80}
+        imageOpacity={100}
         overlay="light"
         imagePosition="center 35%"
         size="tall"
@@ -98,11 +105,13 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="order-1 lg:order-2 relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
-                <img
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
+                <Image
                   src="https://picsum.photos/seed/vopa-mission/800/600"
                   alt="Students in a classroom at Valley of Peace"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 hidden md:block bg-gold text-charcoal rounded-2xl px-6 py-5 shadow-lg -rotate-2">

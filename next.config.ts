@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     unoptimized: true,
+    remotePatterns: [{ protocol: "https", hostname: "picsum.photos" }],
   },
 };
 

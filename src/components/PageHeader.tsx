@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type PageHeaderProps = {
   eyebrow?: string;
   title: string;
@@ -10,11 +12,13 @@ type PageHeaderProps = {
   size?: "default" | "tall";
 };
 
-const overlayStyles = {
-  heavy:
-    "bg-gradient-to-br from-blue-deep via-blue-deep/90 to-blue-deep/70",
-  light: "bg-gradient-to-r from-blue-deep via-blue-deep/75 to-blue-deep/20",
-} as const;
+const overlayStyles: Record<PageHeaderProps["overlay"] & string, string[]> = {
+  heavy: ["bg-gradient-to-br from-blue-deep via-blue-deep/90 to-blue-deep/70"],
+  light: [
+    "bg-blue-deep/20",
+    "bg-gradient-to-r from-blue-deep from-25% via-blue-deep/45 via-50% to-transparent",
+  ],
+};
 
 const sizeStyles = {
   default: "pt-24 md:pt-32 pb-16 md:pb-20",
@@ -37,16 +41,22 @@ export function PageHeader({
       {imageUrl && (
         <>
           <div className="absolute inset-0">
-            <img
+            <Image
               src={imageUrl}
               alt={imageAlt || title}
-              style={{ opacity: imageOpacity / 100, objectPosition: imagePosition }}
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              style={{
+                opacity: imageOpacity / 100,
+                objectPosition: imagePosition,
+              }}
+              className="object-cover"
             />
           </div>
-          <div
-            className={`absolute inset-0 ${overlayStyles[overlay]}`}
-          />
+          {overlayStyles[overlay].map((layer) => (
+            <div key={layer} className={`absolute inset-0 ${layer}`} />
+          ))}
         </>
       )}
       <div

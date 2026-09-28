@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type CardProps = {
@@ -20,11 +21,13 @@ export function Card({
   const content = (
     <>
       {imageUrl && (
-        <div className="aspect-[16/10] overflow-hidden rounded-t-xl">
-          <img
+        <div className="relative aspect-[16/10] overflow-hidden rounded-t-xl">
+          <Image
             src={imageUrl}
             alt={imageAlt || title}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover transition-transform duration-300 hover:scale-105"
           />
         </div>
       )}

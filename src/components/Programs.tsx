@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { BookOpen, Heart, Palette } from "@phosphor-icons/react";
 
@@ -45,11 +46,13 @@ export function Programs() {
           }}
           className="group bg-white rounded-xl border border-gray-200/60 overflow-hidden hover:shadow-lg hover:shadow-blue-deep/5 hover:border-blue-deep/10 transition-all duration-300"
         >
-          <div className="aspect-[16/10] overflow-hidden">
-            <img
+          <div className="relative aspect-[16/10] overflow-hidden">
+            <Image
               src={program.image}
               alt={program.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
           <div className="p-6">

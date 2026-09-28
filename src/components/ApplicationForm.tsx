@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { PaperPlaneTilt, CheckCircle } from "@phosphor-icons/react";
+import { APPLICATION_FORM_ID, submitForm } from "@/lib/forms";
 
 type FormErrors = {
   studentName?: string;
@@ -13,14 +14,12 @@ type FormErrors = {
   email?: string;
 };
 
-function encode(value: string) {
-  return encodeURIComponent(value);
-}
-
 export function ApplicationForm() {
   const reduce = useReducedMotion();
   const [submitted, setSubmitted] = useState(false);
+  const [viaMailto, setViaMailto] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
 
   function validate(form: HTMLFormElement): FormErrors {
@@ -45,28 +44,7 @@ export function ApplicationForm() {
     return e;
   }
 
-  function buildBody(form: HTMLFormElement) {
-    const data = new FormData(form);
-    const read = (key: string) => (data.get(key) as string | null)?.trim() || "-";
-    const lines = [
-      ["Student Name", read("studentName")],
-      ["Date of Birth", read("dateOfBirth")],
-      ["Gender", read("gender")],
-      ["Applying for Form", read("form")],
-      ["Current / Previous School", read("school")],
-      ["Parent / Guardian", read("guardianName")],
-      ["Phone", read("phone")],
-      ["Parent Email", read("email")],
-      ["Home Address", read("address")],
-      ["Emergency Contact", read("emergencyContact")],
-      ["Notes", read("notes")],
-    ];
-    return lines
-      .map(([label, value]) => `${label}: ${value}`)
-      .join("\n");
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const validationErrors = validate(form);
@@ -77,19 +55,26 @@ export function ApplicationForm() {
     }
 
     setErrors({});
+    setSubmitError(null);
     setLoading(true);
 
-    const body = buildBody(form);
-    const studentName = (new FormData(form).get("studentName") as string).trim();
-    const mailto = `mailto:info@vopa.edu?subject=${encode(
-      `Online Application - ${studentName}`
-    )}&body=${encode(body)}`;
+    const studentName = (form.elements.namedItem("studentName") as HTMLInputElement)
+      ?.value.trim();
 
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-      window.location.href = mailto;
-    }, 600);
+    const result = await submitForm(form, {
+      formId: APPLICATION_FORM_ID,
+      subject: `Online application — ${studentName}`,
+    });
+
+    setLoading(false);
+
+    if (!result.ok) {
+      setSubmitError(result.message);
+      return;
+    }
+
+    setViaMailto(result.via === "mailto");
+    setSubmitted(true);
   }
 
   function fieldClasses(field: string) {
@@ -116,15 +101,15 @@ export function ApplicationForm() {
           <CheckCircle size={26} />
         </div>
         <h3 className="text-lg font-semibold text-charcoal mb-2">
-          Application Ready to Send
+          Application Received
         </h3>
         <p className="text-sm text-gray leading-relaxed mb-4">
-          We&apos;ve opened your email app with your application details addressed to
-          info@vopa.edu. Hit send there and we&apos;ll be in touch shortly — usually
-          within one business day.
+          {viaMailto
+            ? "Your email app should have opened with your application pre-filled and addressed to info@vopa.edu. Hit send there and we'll be in touch shortly."
+            : "Thank you — your application is with our admissions office. We'll be in touch shortly, usually within one business day."}
         </p>
         <p className="text-xs text-gray-light leading-relaxed">
-          If your email app didn&apos;t open, write to us directly at{" "}
+          Need to add anything? Email us directly at{" "}
           <a
             href="mailto:info@vopa.edu"
             className="text-blue-deep font-semibold underline underline-offset-2"
@@ -155,6 +140,15 @@ export function ApplicationForm() {
       className="space-y-5"
       aria-label="Online application form"
     >
+      <input
+        type="text"
+        name="_gotcha"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label
@@ -360,10 +354,25 @@ export function ApplicationForm() {
         />
       </div>
 
+      {submitError && (
+        <p
+          role="alert"
+          className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700"
+        >
+          {submitError}{" "}
+          <a
+            href="mailto:info@vopa.edu"
+            className="font-semibold underline underline-offset-2"
+          >
+            info@vopa.edu
+          </a>
+        </p>
+      )}
+
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-charcoal text-sm font-semibold rounded-lg hover:bg-gold-light transition-all duration-200 active:scale-[0.98] hover:shadow-md hover:shadow-gold/20 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-charcoal text-sm font-semibold rounded-lg hover:bg-gold-light transition-all duration-200 active:scale-[0.98] hover:shadow-md hover:shadow-gold/20 disabled:opacity-60 disabled:cursor-allowed"
       >
         {loading ? (
           <>
@@ -371,7 +380,7 @@ export function ApplicationForm() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Preparing...
+            Sending...
           </>
         ) : (
           <>
@@ -381,9 +390,10 @@ export function ApplicationForm() {
         )}
       </button>
       <p className="text-xs text-gray-light leading-relaxed">
-        Submitting opens your email app with your application pre-filled for
-        info@vopa.edu. You can review it before it leaves your computer.
+        Your details go straight to our admissions office. We reply within one
+        business day.
       </p>
+
     </motion.form>
   );
 }

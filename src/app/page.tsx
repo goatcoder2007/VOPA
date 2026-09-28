@@ -1,8 +1,19 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
 import { Programs } from "@/components/Programs";
 import { Timeline } from "@/components/Timeline";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Button } from "@/components/Button";
+import { site } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: {
+    absolute:
+      "SDA High School in Valley of Peace, Belize | Valley of Peace SDA Academy",
+  },
+  description: site.description,
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

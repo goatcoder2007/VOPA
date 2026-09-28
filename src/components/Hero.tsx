@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Button } from "./Button";
 
 type HeroProps = {
@@ -22,10 +23,13 @@ export function Hero({
   return (
     <section className="relative min-h-[85dvh] md:min-h-[90dvh] flex items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src={imageUrl}
           alt={imageAlt}
-          className="w-full h-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-deep/60 via-blue-deep/40 to-blue-deep/20" />
       </div>

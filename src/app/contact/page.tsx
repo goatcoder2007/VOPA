@@ -1,32 +1,41 @@
+import Image from "next/image";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactForm } from "@/components/ContactForm";
 import { Icon } from "@/components/Icon";
+import { JsonLd } from "@/components/JsonLd";
+import { buildMetadata, pageImages } from "@/lib/metadata";
+import { breadcrumbSchema } from "@/lib/schema";
+import { site } from "@/lib/site";
 
-export const metadata = {
-  title: "Contact — Valley of Peace SDA Academy",
-  description:
-    "Get in touch with Valley of Peace SDA Academy. We're here to answer your questions about admissions, academics, and campus life.",
-};
+export const metadata = buildMetadata({
+  title: "Contact & Directions",
+  description: `Contact Valley of Peace SDA Academy in Valley of Peace, Belize. Visit us on Arias Road, call ${site.phone}, or email ${site.email} — we reply within one business day.`,
+  path: "/contact/",
+  image: pageImages.contact,
+});
 
 const contactChannels = [
   {
     icon: <Icon name="MapPin" size={22} />,
     label: "Visit Us",
-    value: "Arias Road, Valley of Peace",
+    value: `${site.address.street}, ${site.address.locality}`,
     sub: "Main campus entrance",
+    href: "/contact/#find-us",
   },
   {
     icon: <Icon name="Phone" size={22} />,
     label: "Call Us",
-    value: "604-1198",
+    value: site.phone,
     sub: "Office line, Monday-Friday",
+    href: `tel:${site.phoneE164}`,
   },
   {
     icon: <Icon name="EnvelopeSimple" size={22} />,
     label: "Email Us",
-    value: "info@vopa.edu",
+    value: site.email,
     sub: "We reply within one business day",
+    href: `mailto:${site.email}`,
   },
 ];
 
@@ -38,6 +47,7 @@ const hours = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "Contact", path: "/contact/" }])} />
       <PageHeader
         eyebrow="Contact"
         title="We would love to hear from you"
@@ -69,7 +79,12 @@ export default function ContactPage() {
                       <div className="text-sm font-semibold text-charcoal">
                         {channel.label}
                       </div>
-                      <div className="text-sm text-gray">{channel.value}</div>
+                      <a
+                        href={channel.href}
+                        className="text-sm text-gray hover:text-blue-deep transition-colors"
+                      >
+                        {channel.value}
+                      </a>
                       <div className="text-xs text-gray-light mt-0.5">
                         {channel.sub}
                       </div>
@@ -128,7 +143,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section id="find-us" className="py-16 md:py-24 bg-gray-50 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             eyebrow="Find Us"
@@ -136,27 +151,40 @@ export default function ContactPage() {
             description="We're located on Arias Road in Valley of Peace. Stop by for a visit — we would love to show you around."
             align="center"
           />
-          <div className="mt-12 aspect-[16/7] rounded-2xl overflow-hidden shadow-lg shadow-blue-deep/5 border border-blue-deep/10">
-            <img
+          <div className="mt-12 relative aspect-[16/7] rounded-2xl overflow-hidden shadow-lg shadow-blue-deep/5 border border-blue-deep/10">
+            <Image
               src="https://picsum.photos/seed/vopa-map/1200/525"
               alt="Map showing Valley of Peace SDA Academy location"
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 1280px"
+              className="object-cover"
             />
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-gray">
+          <address className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-gray not-italic">
             <span className="flex items-center gap-2">
               <Icon name="MapPin" size={16} weight="duotone" className="text-gold" />
-              Arias Road, Valley of Peace
+              {site.address.street}, {site.address.locality}
             </span>
-            <span className="flex items-center gap-2">
+            <a
+              href={`tel:${site.phoneE164}`}
+              className="flex items-center gap-2 hover:text-blue-deep transition-colors"
+            >
               <Icon name="Phone" size={16} weight="duotone" className="text-gold" />
-              604-1198
-            </span>
-            <span className="flex items-center gap-2">
-              <Icon name="EnvelopeSimple" size={16} weight="duotone" className="text-gold" />
-              info@vopa.edu
-            </span>
-          </div>
+              {site.phone}
+            </a>
+            <a
+              href={`mailto:${site.email}`}
+              className="flex items-center gap-2 hover:text-blue-deep transition-colors"
+            >
+              <Icon
+                name="EnvelopeSimple"
+                size={16}
+                weight="duotone"
+                className="text-gold"
+              />
+              {site.email}
+            </a>
+          </address>
         </div>
       </section>
     </>

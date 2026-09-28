@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PageCta } from "@/components/PageCta";
@@ -5,12 +6,16 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { Button } from "@/components/Button";
 import { Icon } from "@/components/Icon";
 import { ApplicationForm } from "@/components/ApplicationForm";
+import { JsonLd } from "@/components/JsonLd";
+import { buildMetadata, pageImages } from "@/lib/metadata";
+import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Admissions — Valley of Peace SDA Academy",
-  description:
-    "Begin your family's journey at Valley of Peace SDA Academy. Learn about our admissions process, tuition, and how to apply.",
-};
+export const metadata = buildMetadata({
+  title: "Admissions & Tuition",
+  description: `Apply to Valley of Peace SDA Academy in Valley of Peace, Belize. Forms 1-4, rolling admissions, financial aid available, and an online application that takes about 20 minutes.`,
+  path: "/admissions/",
+  image: pageImages.admissions,
+});
 
 const steps = [
   {
@@ -86,6 +91,8 @@ const documents = [
 export default function AdmissionsPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "Admissions", path: "/admissions/" }])} />
+      <JsonLd data={faqSchema(faqs)} />
       <PageHeader
         eyebrow="Admissions"
         title="Your family's next chapter starts here"
@@ -161,11 +168,13 @@ export default function AdmissionsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
-                <img
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
+                <Image
                   src="https://picsum.photos/seed/vopa-campus/800/600"
                   alt="Valley of Peace campus"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
                 />
               </div>
               <div className="absolute -top-5 -right-5 hidden md:block bg-gold text-charcoal rounded-2xl px-6 py-5 shadow-lg rotate-2">

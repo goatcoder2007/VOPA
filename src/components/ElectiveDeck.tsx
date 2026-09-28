@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
@@ -95,10 +96,12 @@ export function ElectiveDeck({
           >
             <div className="relative aspect-[16/10]">
               {elective.image ? (
-                <img
+                <Image
                   src={elective.image}
                   alt={elective.photoAlt ?? elective.title}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 85vw, 40vw"
+                  className="object-cover"
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-deep to-blue-mid" />
