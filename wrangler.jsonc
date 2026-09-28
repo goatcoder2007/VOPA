@@ -1,14 +1,9 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
-	"name": "vopa-website",
+	"name": "valleyofpeacesdaacademy",
 	"compatibility_date": "2026-09-27",
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-	// Used by Cloudflare Workers Builds (Git integration) so the OpenNext
-	// bundle is built before `wrangler deploy` runs.
-	"build": {
-		"command": "npm run build:cf"
-	},
 	"assets": {
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
@@ -17,7 +12,7 @@
 		{
 			// Self-reference service binding; the service name must match the worker name.
 			"binding": "WORKER_SELF_REFERENCE",
-			"service": "vopa-website"
+			"service": "valleyofpeacesdaacademy"
 		}
 	]
 }
