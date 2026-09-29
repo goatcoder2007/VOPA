@@ -21,6 +21,12 @@ export const site = {
     country: "BZ",
     countryName: "Belize",
   },
+  // Campus coordinates, used for the embedded map and for schema.org geo data
+  geo: {
+    latitude: 17.3294135,
+    longitude: -88.8439488,
+  },
+  googleMapsPlaceId: "0x8f5e80e0c4423cd9:0x28eb5c7ad38859b6",
   themeColor: "#1e3a8a",
   ogImage: {
     url: "/community.jpg",
@@ -51,4 +57,15 @@ export const routes = [
 
 export function absoluteUrl(path: string) {
   return new URL(path, site.url).toString();
+}
+
+// Google Maps links built from the campus coordinates. `search` opens the
+// place listing, `dir` goes straight into turn-by-turn directions.
+export function googleMapsUrl(kind: "search" | "dir" = "search") {
+  const { latitude, longitude } = site.geo;
+  const base =
+    kind === "dir"
+      ? "https://www.google.com/maps/dir/?api=1"
+      : "https://www.google.com/maps/search/?api=1";
+  return `${base}&destination=${latitude},${longitude}`;
 }

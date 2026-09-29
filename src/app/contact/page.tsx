@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactForm } from "@/components/ContactForm";
+import { CampusMap } from "@/components/CampusMap";
 import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { buildMetadata, pageImages } from "@/lib/metadata";
@@ -151,14 +151,8 @@ export default function ContactPage() {
             description="We're located on Arias Road in Valley of Peace. Stop by for a visit — we would love to show you around."
             align="center"
           />
-          <div className="mt-12 relative aspect-[16/7] rounded-2xl overflow-hidden shadow-lg shadow-blue-deep/5 border border-blue-deep/10">
-            <Image
-              src="https://picsum.photos/seed/vopa-map/1200/525"
-              alt="Map showing Valley of Peace SDA Academy location"
-              fill
-              sizes="(max-width: 1024px) 100vw, 1280px"
-              className="object-cover"
-            />
+          <div className="mt-12">
+            <CampusMap />
           </div>
           <address className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-gray not-italic">
             <span className="flex items-center gap-2">

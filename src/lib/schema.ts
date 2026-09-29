@@ -1,4 +1,4 @@
-import { absoluteUrl, site } from "./site";
+import { absoluteUrl, googleMapsUrl, site } from "./site";
 
 const postalAddress = {
   "@type": "PostalAddress",
@@ -39,6 +39,12 @@ export function organizationSchema() {
         telephone: site.phoneE164,
         foundingDate: site.founded,
         address: postalAddress,
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: site.geo.latitude,
+          longitude: site.geo.longitude,
+        },
+        hasMap: googleMapsUrl("search"),
         areaServed: [
           { "@type": "Place", name: `${site.address.locality}, ${site.address.countryName}` },
         ],

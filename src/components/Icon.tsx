@@ -16,6 +16,7 @@ import {
   PencilLine,
   MagnifyingGlass,
   MapPin,
+  NavigationArrow,
   ClipboardText,
   UserCheck,
   FileText,
@@ -34,6 +35,8 @@ import {
   Briefcase,
   Atom,
   Microscope,
+  HandTap,
+  X,
 } from "@phosphor-icons/react";
 
 const iconMap = {
@@ -52,6 +55,7 @@ const iconMap = {
   PencilLine,
   MagnifyingGlass,
   MapPin,
+  NavigationArrow,
   ClipboardText,
   UserCheck,
   FileText,
@@ -70,6 +74,8 @@ const iconMap = {
   Briefcase,
   Atom,
   Microscope,
+  HandTap,
+  X,
 } as const;
 
 export type IconName = keyof typeof iconMap;

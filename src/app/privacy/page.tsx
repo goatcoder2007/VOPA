@@ -74,6 +74,7 @@ const sections: {
     heading: "Cookies and analytics",
     body: [
       "This website does not use advertising cookies or cross-site tracking. If we later add analytics, this notice will be updated before it goes live and you will be told what is measured and how to opt out.",
+      "The map on the contact page is drawn by OpenStreetMap and Esri satellite imagery, so viewing that page sends your browser requests to openstreetmap.org and arcgisonline.com, which will see your IP address. They set no tracking cookies here. The directions links open Google Maps in a new tab, which is governed by Google's own privacy policy.",
     ],
   },
   {
