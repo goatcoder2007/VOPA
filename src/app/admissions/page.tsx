@@ -170,8 +170,8 @@ export default function AdmissionsPage() {
             <div className="relative">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
                 <Image
-                  src="https://picsum.photos/seed/vopa-campus/800/600"
-                  alt="Valley of Peace campus"
+                  src="/students-1.jpg"
+                  alt="Three Valley of Peace students together on campus"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
