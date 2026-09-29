@@ -2,10 +2,9 @@ export const site = {
   name: "Valley of Peace SDA Academy",
   shortName: "Valley of Peace",
   legalName: "Valley of Peace Seventh-day Adventist Academy",
-  // Swap this for the custom domain once it is connected in Cloudflare
-  // (Workers > your Worker > Settings > Domains & Routes). Everything SEO
-  // related — canonicals, Open Graph, sitemap, robots — derives from here.
-  url: "https://valleyofpeacesdaacademy.workers.dev",
+  // Everything SEO related — canonicals, Open Graph, sitemap, robots — derives
+  // from here. The apex domain is canonical; www is redirected to it.
+  url: "https://vopacademy.org",
   locale: "en_BZ",
   founded: "2006",
   description:
