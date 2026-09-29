@@ -7,7 +7,7 @@ type PageHeaderProps = {
   imageUrl?: string;
   imageAlt?: string;
   imageOpacity?: number;
-  overlay?: "heavy" | "light";
+  overlay?: "heavy" | "light" | "soft";
   imagePosition?: string;
   size?: "default" | "tall";
 };
@@ -17,6 +17,13 @@ const overlayStyles: Record<PageHeaderProps["overlay"] & string, string[]> = {
   light: [
     "bg-blue-deep/20",
     "bg-gradient-to-r from-blue-deep from-25% via-blue-deep/45 via-50% to-transparent",
+  ],
+  // Neutral scrim instead of a flat blue wash, so a photo at full opacity
+  // keeps its own colour and the blue only sits behind the text. Kept light
+  // because the heading and subtitle carry their own shadow.
+  soft: [
+    "bg-charcoal/15",
+    "bg-gradient-to-r from-blue-deep/65 from-10% via-blue-deep/35 via-35% to-transparent",
   ],
 };
 
@@ -69,11 +76,11 @@ export function PageHeader({
               {eyebrow}
             </p>
           )}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.05] mb-5">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.05] mb-5 [text-shadow:0_2px_14px_rgba(2,10,30,0.45)]">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-lg md:text-xl text-white/85 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-2xl [text-shadow:0_1px_10px_rgba(2,10,30,0.45)]">
               {subtitle}
             </p>
           )}

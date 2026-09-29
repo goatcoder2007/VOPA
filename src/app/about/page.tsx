@@ -65,7 +65,7 @@ export default function AboutPage() {
         imageUrl="/community.jpg"
         imageAlt="Valley of Peace students together on a school outing"
         imageOpacity={100}
-        overlay="light"
+        overlay="soft"
         imagePosition="center 35%"
         size="tall"
       />
