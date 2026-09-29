@@ -46,6 +46,7 @@ export const routes = [
   { path: "/faculty", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/admissions", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/contact", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/privacy", priority: 0.2, changeFrequency: "yearly" as const },
 ];
 
 export function absoluteUrl(path: string) {

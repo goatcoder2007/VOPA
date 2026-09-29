@@ -104,7 +104,13 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-white/50">
             &copy; {new Date().getFullYear()} Valley of Peace SDA Academy. All
-            rights reserved.
+            rights reserved.{" "}
+            <Link
+              href="/privacy"
+              className="text-white/50 hover:text-gold transition-colors underline underline-offset-2"
+            >
+              Privacy
+            </Link>
           </p>
           <p className="text-xs text-white/40">
             Nurturing Minds. Building Character. Living Faith.

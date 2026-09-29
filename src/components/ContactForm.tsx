@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { PaperPlaneTilt } from "@phosphor-icons/react";
 import { CONTACT_FORM_ID, submitForm } from "@/lib/forms";
@@ -10,6 +11,7 @@ type FormErrors = {
   email?: string;
   subject?: string;
   message?: string;
+  consent?: string;
 };
 
 export function ContactForm() {
@@ -34,6 +36,8 @@ export function ContactForm() {
       e.email = "Please enter a valid email address.";
     if (!subject) e.subject = "Please select a topic.";
     if (!message) e.message = "Please enter a message.";
+    if (!data.get("consent"))
+      e.consent = "Please confirm you agree before sending.";
 
     return e;
   }
@@ -211,6 +215,36 @@ export function ContactForm() {
         {errors.message && (
           <p id="message-error" className="mt-1 text-xs text-red-600" role="alert">
             {errors.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="consent" className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            id="consent"
+            name="consent"
+            value="yes"
+            aria-invalid={!!errors.consent}
+            aria-describedby={errors.consent ? "consent-error" : undefined}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 accent-blue-deep focus:ring-2 focus:ring-blue-deep/30"
+          />
+          <span className="text-sm text-gray-700 leading-relaxed">
+            I agree that the school may store these details and contact me about
+            my enquiry. See the{" "}
+            <Link
+              href="/privacy"
+              className="text-blue-deep underline underline-offset-2 hover:text-gold"
+            >
+              privacy notice
+            </Link>
+            .
+          </span>
+        </label>
+        {errors.consent && (
+          <p id="consent-error" className="mt-1 text-xs text-red-600" role="alert">
+            {errors.consent}
           </p>
         )}
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { PaperPlaneTilt, CheckCircle } from "@phosphor-icons/react";
 import { APPLICATION_FORM_ID, submitForm } from "@/lib/forms";
@@ -12,6 +13,7 @@ type FormErrors = {
   guardianName?: string;
   phone?: string;
   email?: string;
+  consent?: string;
 };
 
 export function ApplicationForm() {
@@ -40,6 +42,8 @@ export function ApplicationForm() {
     if (!email) e.email = "Please enter an email address.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       e.email = "Please enter a valid email address.";
+    if (!data.get("consent"))
+      e.consent = "Please confirm you have read the privacy notice.";
 
     return e;
   }
@@ -369,6 +373,35 @@ export function ApplicationForm() {
         </p>
       )}
 
+      <div>
+        <label
+          htmlFor="consent"
+          className="flex items-start gap-3 cursor-pointer"
+        >
+          <input
+            type="checkbox"
+            id="consent"
+            name="consent"
+            value="yes"
+            aria-invalid={!!errors.consent}
+            aria-describedby={errors.consent ? "consent-error" : undefined}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-blue-deep focus:ring-2 focus:ring-blue-deep/30 accent-blue-deep"
+          />
+          <span className="text-sm text-gray-700 leading-relaxed">
+            I am the student&rsquo;s parent or guardian, and I have read the{" "}
+            <Link
+              href="/privacy"
+              className="text-blue-deep underline underline-offset-2 hover:text-gold"
+            >
+              privacy notice
+            </Link>{" "}
+            and consent to the school processing these details for this
+            application.
+          </span>
+        </label>
+        {fieldError("consent")}
+      </div>
+
       <button
         type="submit"
         disabled={loading}
@@ -393,7 +426,6 @@ export function ApplicationForm() {
         Your details go straight to our admissions office. We reply within one
         business day.
       </p>
-
     </motion.form>
   );
 }
