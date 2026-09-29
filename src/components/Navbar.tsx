@@ -3,12 +3,18 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 import { primaryNav } from "@/lib/site";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  // trailingSlash is on, so the pathname can arrive as "/about/" while the
+  // nav links are "/about" — compare them normalised.
+  const current = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
+  const isActive = (href: string) => current === href;
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-blue-deep/10">
@@ -33,17 +39,24 @@ export function Navbar() {
         </Link>
 
         <ul className="hidden lg:flex items-center gap-1">
-                {primaryNav.map((link) => (
-
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="px-4 py-2 text-sm font-medium text-charcoal hover:text-blue-deep transition-colors duration-200 rounded-lg hover:bg-blue-deep/5"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {primaryNav.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 after:absolute after:left-3 after:right-3 after:bottom-0.5 after:h-0.5 after:rounded-full after:bg-gold after:transition-transform after:duration-200 ${
+                    active
+                      ? "text-blue-deep font-semibold after:scale-x-100"
+                      : "text-charcoal hover:text-blue-deep hover:bg-blue-deep/5 after:scale-x-0"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         <Link
@@ -73,17 +86,30 @@ export function Navbar() {
             className="lg:hidden border-t border-blue-deep/10 bg-white overflow-hidden"
           >
             <div className="px-4 py-4 space-y-1">
-          {primaryNav.map((link) => (
-
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-3 text-sm font-medium text-charcoal hover:text-blue-deep hover:bg-blue-deep/5 rounded-lg transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {primaryNav.map((link) => {
+                const active = isActive(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex items-center gap-3 block px-4 py-3 text-sm rounded-lg transition-colors ${
+                      active
+                        ? "bg-blue-deep/5 text-blue-deep font-semibold"
+                        : "text-charcoal hover:text-blue-deep hover:bg-blue-deep/5"
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`h-4 w-1 rounded-full transition-colors ${
+                        active ? "bg-gold" : "bg-transparent"
+                      }`}
+                    />
+                    {link.label}
+                  </Link>
+                );
+              })}
               <Link
                 href="/admissions"
                 onClick={() => setMobileOpen(false)}
