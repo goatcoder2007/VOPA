@@ -210,6 +210,24 @@ export default function AdmissionsPage() {
                   </div>
                 </div>
               </div>
+              <div className="mt-6 flex items-start gap-4 rounded-2xl bg-gold-pale border border-gold/40 p-5">
+                <Icon
+                  name="Trophy"
+                  size={24}
+                  weight="fill"
+                  className="text-gold shrink-0 mt-0.5"
+                />
+                <div>
+                  <h4 className="text-sm font-bold text-charcoal">
+                    Three uniform sets, free
+                  </h4>
+                  <p className="mt-1 text-sm text-gray leading-relaxed">
+                    Every new student is issued three complete uniform sets at
+                    no cost — so families start the year with a full wardrobe
+                    without an extra bill.
+                  </p>
+                </div>
+              </div>
               <p className="mt-5 text-sm text-gray leading-relaxed">
                 Contact our admissions office for current tuition rates and
                 financial aid options. We are committed to keeping a VOPA

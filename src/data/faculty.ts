@@ -5,8 +5,11 @@ export type FacultyMember = {
   role: string;
   subjects: string[];
   photo?: string;
-  /** Set to false once a real photo is supplied in /public. */
-  hasPhoto?: boolean;
+  /**
+   * CSS object-position for the card crop, for portraits where the subject
+   * sits low in the frame. Defaults to top-anchored.
+   */
+  photoFocus?: string;
 };
 
 export type Department = {
@@ -16,9 +19,6 @@ export type Department = {
   members: FacultyMember[];
 };
 
-// PLACEHOLDER DATA — swap these entries for the real staff list before launch.
-// Names, roles and photos below are examples only; delete any member you cannot
-// fill in, and add a `photo: "/faculty/<file>.jpg"` when a portrait is ready.
 export const departments: Department[] = [
   {
     name: "Administration",
@@ -27,22 +27,11 @@ export const departments: Department[] = [
       "The team that keeps the academy running day to day, from enrolment to chapel.",
     members: [
       {
-        name: "Justine Myvette",
+        name: "Justine Price",
         role: "Principal",
         subjects: ["Administration", "Student Development"],
-        hasPhoto: false,
-      },
-      {
-        name: "Staff Member",
-        role: "Registrar",
-        subjects: ["Enrolment", "Records"],
-        hasPhoto: false,
-      },
-      {
-        name: "Staff Member",
-        role: "Admissions Officer",
-        subjects: ["Admissions", "Family Relations"],
-        hasPhoto: false,
+        photo: "/faculty/justine-price.jpg",
+        photoFocus: "center 26%",
       },
     ],
   },
@@ -53,36 +42,11 @@ export const departments: Department[] = [
       "Daily Bible instruction, chapel, and the spiritual formation that underpins every subject we teach.",
     members: [
       {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["Bible", "Religious Education"],
-        hasPhoto: false,
-      },
-      {
-        name: "Staff Member",
+        name: "Kenty Bey",
         role: "Teacher",
-        subjects: ["Bible", "Chapel"],
-        hasPhoto: false,
-      },
-    ],
-  },
-  {
-    name: "English & Language Arts",
-    icon: "BookOpenText",
-    description:
-      "Reading, writing and communication — the subjects that decide how well every other idea lands.",
-    members: [
-      {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["English", "Literature", "Reading Comprehension"],
-        hasPhoto: false,
-      },
-      {
-        name: "Staff Member",
-        role: "Teacher",
-        subjects: ["English", "Reading Comprehension"],
-        hasPhoto: false,
+        subjects: ["Bible", "Religious Education", "Chapel"],
+        photo: "/faculty/kenty-bey.jpg",
+        photoFocus: "center 22%",
       },
     ],
   },
@@ -93,16 +57,11 @@ export const departments: Department[] = [
       "Numeracy, problem solving and logical thinking, built form by form.",
     members: [
       {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["Mathematics"],
-        hasPhoto: false,
-      },
-      {
-        name: "Staff Member",
+        name: "Kenty Bey",
         role: "Teacher",
-        subjects: ["Mathematics", "ICT support"],
-        hasPhoto: false,
+        subjects: ["Mathematics"],
+        photo: "/faculty/kenty-bey.jpg",
+        photoFocus: "center 22%",
       },
     ],
   },
@@ -113,16 +72,16 @@ export const departments: Department[] = [
       "Biology, chemistry and physics with hands-on lab work for the Science stream from Form 3.",
     members: [
       {
-        name: "Staff Member",
-        role: "Head of Department",
+        name: "Meilin Wagner",
+        role: "Science Teacher",
         subjects: ["Biology", "Chemistry", "Physics"],
-        hasPhoto: false,
+        photo: "/faculty/meilin-wagner.jpg",
       },
       {
-        name: "Staff Member",
-        role: "Laboratory Assistant",
-        subjects: ["Biology", "Chemistry"],
-        hasPhoto: false,
+        name: "Garik Gilharry",
+        role: "Science Teacher",
+        subjects: ["Biology", "Chemistry", "Physics"],
+        photo: "/faculty/garik-gilharry.jpg",
       },
     ],
   },
@@ -133,10 +92,10 @@ export const departments: Department[] = [
       "Accounting, commerce and office practice for students in the Business stream.",
     members: [
       {
-        name: "Staff Member",
-        role: "Head of Department",
+        name: "Elena Oh",
+        role: "Teacher",
         subjects: ["Accounting", "Commerce", "Entrepreneurship"],
-        hasPhoto: false,
+        photo: "/faculty/elena-oh.jpg",
       },
     ],
   },
@@ -147,98 +106,63 @@ export const departments: Department[] = [
       "Digital literacy and practical computing, from the basics through to workplace tools.",
     members: [
       {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["Information Technology", "Computer Science"],
-        hasPhoto: false,
+        name: "Allen Montero",
+        role: "IT Teacher",
+        subjects: ["Information Technology", "Computer Science", "Lower Forms"],
+        photo: "/faculty/allen-montero.jpg",
+      },
+      {
+        name: "Angel Chi",
+        role: "IT Teacher",
+        subjects: ["Information Technology", "Computer Science", "Upper Forms"],
+        photo: "/faculty/angel-chi.jpg",
       },
     ],
   },
   {
-    name: "Belizean Studies",
-    icon: "Flag",
+    name: "Spanish",
+    icon: "ChatCircleText",
     description:
-      "Our nation's history, geography, culture and heritage — taught with pride and perspective.",
+      "Spanish language and culture — building communication skills for a connected world.",
     members: [
       {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["Belizean Studies", "Social Studies"],
-        hasPhoto: false,
-      },
-    ],
-  },
-  {
-    name: "Agriculture",
-    icon: "Plant",
-    description:
-      "Planting, growing and understanding where food comes from — a hands-on programme in every form.",
-    members: [
-      {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["Agriculture", "Landscaping"],
-        hasPhoto: false,
-      },
-    ],
-  },
-  {
-    name: "Arts, Music & Design",
-    icon: "Palette",
-    description:
-      "Visual arts, graphic design and music — the electives where students find their gifts.",
-    members: [
-      {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["Visual Arts", "Graphic Design"],
-        hasPhoto: false,
-      },
-      {
-        name: "Staff Member",
-        role: "Music Teacher",
-        subjects: ["Music", "Worship Team"],
-        hasPhoto: false,
-      },
-    ],
-  },
-  {
-    name: "Physical Education & Athletics",
-    icon: "Trophy",
-    description:
-      "P.E. every form, plus the teams that represent VOPA at inter-SDA school meets.",
-    members: [
-      {
-        name: "Staff Member",
-        role: "Head of Department",
-        subjects: ["Physical Education", "Athletics"],
-        hasPhoto: false,
-      },
-      {
-        name: "Staff Member",
-        role: "Coach",
-        subjects: ["Volleyball", "Football"],
-        hasPhoto: false,
-      },
-    ],
-  },
-  {
-    name: "Food & Nutrition",
-    icon: "ForkKnife",
-    description:
-      "Kitchen skills and nutrition science through the Food & Nutrition elective.",
-    members: [
-      {
-        name: "Staff Member",
+        name: "Patrecia Castro",
         role: "Teacher",
-        subjects: ["Food & Nutrition"],
-        hasPhoto: false,
+        subjects: ["Spanish"],
+        photo: "/faculty/patrecia-castro.jpg",
       },
     ],
   },
 ];
 
-export const facultyCount = departments.reduce(
-  (total, department) => total + department.members.length,
-  0,
-);
+export type FacultyCard = FacultyMember & { departments: string[] };
+
+/**
+ * Flat list for the faculty grid, one entry per person. Teachers who cover
+ * more than one department are merged into a single card with all their
+ * departments and subjects, so nobody appears twice.
+ */
+export const facultyMembers: FacultyCard[] = departments
+  .flatMap((department) =>
+    department.members.map((member) => ({ ...member, departments: [department.name] })),
+  )
+  .reduce<FacultyCard[]>((cards, member) => {
+    const existing = cards.find((card) => card.name === member.name);
+    if (!existing) {
+      cards.push(member);
+      return cards;
+    }
+    for (const department of member.departments) {
+      if (!existing.departments.includes(department)) {
+        existing.departments.push(department);
+      }
+    }
+    for (const subject of member.subjects) {
+      if (!existing.subjects.includes(subject)) {
+        existing.subjects.push(subject);
+      }
+    }
+    return cards;
+  }, []);
+
+export const facultyCount = facultyMembers.length;

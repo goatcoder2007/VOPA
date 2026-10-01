@@ -12,7 +12,7 @@ import { breadcrumbSchema } from "@/lib/schema";
 export const metadata = buildMetadata({
   title: "Academics & Curriculum",
   description:
-    "Explore the academic programme at Valley of Peace SDA Academy in Belize: a shared core in Forms 1-2, then Business or Science pathways from Form 3, plus electives and athletics.",
+    "Explore the academic programme at Valley of Peace SDA Academy in Belize: a shared core in Forms 1-2 including Spanish, then Business or Science pathways from Form 3, plus electives and athletics.",
   path: "/academics/",
   image: pageImages.academics,
 });
@@ -39,6 +39,12 @@ const coreSubjects = [
     title: "English",
     description:
       "Reading, writing, and language arts that build clear communication and confident expression.",
+  },
+  {
+    icon: <Icon name="ChatCircleText" size={22} />,
+    title: "Spanish",
+    description:
+      "A second language taught with a practical focus — speaking, reading, and writing with growing confidence.",
   },
   {
     icon: <Icon name="MathOperations" size={22} />,

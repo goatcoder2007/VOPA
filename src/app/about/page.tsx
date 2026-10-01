@@ -1,10 +1,9 @@
-import Image from "next/image";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PageCta } from "@/components/PageCta";
 import { Timeline } from "@/components/Timeline";
-import { StatsBand } from "@/components/StatsBand";
-import { TestimonialCard } from "@/components/TestimonialCard";
+
+import { MissionVision } from "@/components/MissionVision";
 import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { buildMetadata, pageImages } from "@/lib/metadata";
@@ -13,7 +12,7 @@ import { breadcrumbSchema } from "@/lib/schema";
 export const metadata = buildMetadata({
   title: "About Our School",
   description:
-    "Valley of Peace SDA Academy is a Christ-centred school in Valley of Peace, Belize, founded in 2006. Meet our mission, values, leadership, and community.",
+    "Valley of Peace SDA Academy is a Christ-centred school in Valley of Peace, Belize, founded in 2006. Read our motto, mission, and vision, and meet the values that guide us.",
   path: "/about/",
   image: pageImages.about,
 });
@@ -45,14 +44,7 @@ const values = [
   },
 ];
 
-const leadership = [
-  {
-    name: "Justine Myvette",
-    role: "Principal",
-    bio: "Leading the academy with a commitment to faith, excellence, and the growth of every student.",
-    initials: "JM",
-  },
-];
+
 
 export default function AboutPage() {
   return (
@@ -70,12 +62,14 @@ export default function AboutPage() {
         size="tall"
       />
 
-      <section className="py-16 md:py-24 bg-white">
+      <MissionVision />
+
+      <section className="pt-16 md:pt-24 pb-20 md:pb-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="order-2 lg:order-1">
+          <div className="max-w-3xl mx-auto">
+            <div>
               <SectionHeader
-                eyebrow="Our Mission"
+                eyebrow="Who We Are"
                 title="Nurturing minds, building character"
                 description="Valley of Peace SDA Academy exists to provide Christ-centered education that develops the whole student — intellectually, spiritually, physically, and socially. We partner with families to prepare students for a life of purpose, service, and leadership."
               />
@@ -104,37 +98,7 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2 relative">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-blue-deep/10">
-                <Image
-                  src="https://picsum.photos/seed/vopa-mission/800/600"
-                  alt="Students in a classroom at Valley of Peace"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-6 -left-6 hidden md:block bg-gold text-charcoal rounded-2xl px-6 py-5 shadow-lg -rotate-2">
-                <div className="text-2xl font-bold tracking-tight">20+</div>
-                <div className="text-xs font-semibold uppercase tracking-wider">
-                  Years of service
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-white border-t border-blue-deep/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <StatsBand
-            stats={[
-              { value: "110+", label: "Students enrolled" },
-              { value: "2006", label: "Year founded" },
-              { value: "Forms 1-4", label: "Form levels" },
-              { value: "2024", label: "Free tuition for all" },
-            ]}
-          />
         </div>
       </section>
 
@@ -185,74 +149,13 @@ export default function AboutPage() {
                   known. Not a number, not a statistic, but a beloved child of
                   God with boundless potential.&rdquo;
                 </p>
-                <div className="text-sm font-semibold">Justine Myvette</div>
+                <div className="text-sm font-semibold">Justine Price</div>
                 <div className="text-xs text-white/60">Principal</div>
               </div>
             </div>
             <div className="lg:col-span-7">
               <Timeline />
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            eyebrow="Leadership"
-            title="Guided by purpose"
-            align="center"
-          />
-          <div className="mt-14 flex justify-center">
-            {leadership.map((person) => (
-              <div
-                key={person.name}
-                className="bg-white rounded-2xl border border-blue-deep/10 p-7 text-center max-w-sm w-full hover:shadow-lg hover:shadow-blue-deep/5 transition-shadow duration-300"
-              >
-                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-blue-deep to-blue-mid flex items-center justify-center text-white text-xl font-bold mb-5">
-                  {person.initials}
-                </div>
-                <h3 className="text-lg font-semibold text-charcoal">
-                  {person.name}
-                </h3>
-                <p className="text-sm text-gold font-medium mb-3">
-                  {person.role}
-                </p>
-                <p className="text-sm text-gray leading-relaxed">
-                  {person.bio}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            eyebrow="From Our Families"
-            title="What our community says"
-            align="center"
-          />
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <TestimonialCard
-              quote="VOPA has been an answer to prayer. Our daughter wakes up excited to go to school — that says everything."
-              name="The Ramirez Family"
-              role="Parents of a Form 1 student"
-              index={0}
-            />
-            <TestimonialCard
-              quote="The teachers genuinely know my son. They pray for him, push him academically, and celebrate his growth like it's their own."
-              name="Sarah Thompson"
-              role="Mother of a Form 2 student"
-              index={1}
-            />
-            <TestimonialCard
-              quote="I graduated from VOPA and now my own children walk the same halls. The foundation I received here shaped who I am."
-              name="David Osei-Wusu"
-              role="Alumnus, Class of 2009"
-              index={2}
-            />
           </div>
         </div>
       </section>

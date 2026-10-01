@@ -2,15 +2,14 @@ import Image from "next/image";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PageCta } from "@/components/PageCta";
-import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { buildMetadata, pageImages } from "@/lib/metadata";
 import { breadcrumbSchema } from "@/lib/schema";
-import { departments, facultyCount } from "@/data/faculty";
+import { facultyMembers, facultyCount } from "@/data/faculty";
 
 export const metadata = buildMetadata({
   title: "Faculty & Staff",
-  description: `Meet the ${facultyCount} teachers and staff of Valley of Peace SDA Academy in Valley of Peace, Belize — Bible, English, Mathematics, Science, Business, Agriculture and more.`,
+  description: `Meet the ${facultyCount} teachers and staff of Valley of Peace SDA Academy in Valley of Peace, Belize — Bible, Mathematics, Science, Business, Spanish and Information Technology.`,
   path: "/faculty/",
   image: pageImages.faculty,
 });
@@ -34,10 +33,6 @@ export default function FacultyPage() {
         eyebrow="Faculty & Staff"
         title="The people behind the classrooms"
         subtitle="Small classes mean teachers know every student by name. Here is the team who teach, guide, and care for your child."
-        imageUrl="/community.jpg"
-        imageAlt="Valley of Peace SDA Academy faculty and students"
-        overlay="light"
-        imagePosition="center 35%"
       />
 
       <section className="py-16 md:py-24 bg-white">
@@ -45,66 +40,71 @@ export default function FacultyPage() {
           <SectionHeader
             eyebrow="Our Team"
             title={`${facultyCount} people, one mission`}
-            description="Every department below is staffed by teachers who know their craft and care for the students in front of them. Would you like to meet them? Come see a class in session."
+            description="Every one of our teachers knows their craft and cares for the students in front of them. Would you like to meet them? Come see a class in session."
             align="center"
           />
 
-          <div className="mt-16 space-y-14">
-            {departments.map((department) => (
-              <div key={department.name}>
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="w-12 h-12 rounded-xl bg-blue-deep/10 flex items-center justify-center text-blue-deep shrink-0">
-                    <Icon name={department.icon} size={24} />
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-charcoal tracking-tight">
-                    {department.name}
-                  </h2>
-                </div>
-                <p className="text-sm text-gray leading-relaxed max-w-3xl mb-7 md:ml-16">
-                  {department.description}
-                </p>
+          <p className="mt-6 text-center text-sm text-gray max-w-2xl mx-auto">
+            The subjects listed are each teacher&rsquo;s main class. They also
+            lead and support other areas of the curriculum, so ask us who
+            covers a subject you&rsquo;re curious about.
+          </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {department.members.map((member) => (
-                    <div
-                      key={`${department.name}-${member.name}-${member.role}`}
-                      className="flex items-start gap-4 bg-white rounded-2xl border border-blue-deep/10 p-6 hover:border-gold/50 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300"
-                    >
-                      {member.photo ? (
-                        <Image
-                          src={member.photo}
-                          alt={`${member.name}, ${member.role} at Valley of Peace SDA Academy`}
-                          width={56}
-                          height={56}
-                          className="w-14 h-14 rounded-full object-cover shrink-0"
-                        />
-                      ) : (
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-deep to-blue-mid flex items-center justify-center text-white text-base font-bold shrink-0">
-                          {initials(member.name)}
-                        </div>
-                      )}
-                      <div className="min-w-0">
-                        <h3 className="text-base font-semibold text-charcoal">
-                          {member.name}
-                        </h3>
-                        <p className="text-xs text-gold font-semibold uppercase tracking-wider mt-0.5">
-                          {member.role}
-                        </p>
-                        <ul className="mt-2.5 flex flex-wrap gap-1.5">
-                          {member.subjects.map((subject) => (
-                            <li
-                              key={subject}
-                              className="text-[11px] font-medium text-gray bg-gray-50 border border-blue-deep/10 rounded-md px-2 py-1"
-                            >
-                              {subject}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {facultyMembers.map((member) => (
+              <article
+                key={`${member.name}-${member.role}`}
+                className="group overflow-hidden rounded-2xl bg-white border border-blue-deep/10 hover:border-gold/60 hover:shadow-xl hover:shadow-blue-deep/10 transition-all duration-300"
+              >
+                <div className="relative aspect-square overflow-hidden bg-blue-deep/5">
+                  {member.photo ? (
+                    <Image
+                      src={member.photo}
+                      alt={`${member.name}, ${member.role} at Valley of Peace SDA Academy`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      style={
+                        member.photoFocus
+                          ? { objectPosition: member.photoFocus }
+                          : undefined
+                      }
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-deep to-blue-mid flex items-center justify-center">
+                      <span className="text-4xl font-bold text-white/90 tracking-tight">
+                        {initials(member.name)}
+                      </span>
                     </div>
-                  ))}
+                  )}
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-blue-deep/70 to-transparent"
+                  />
+                  <p className="absolute bottom-3.5 left-4 right-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-white drop-shadow-sm">
+                    {member.role}
+                  </p>
                 </div>
-              </div>
+
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-charcoal tracking-tight leading-tight">
+                    {member.name}
+                  </h3>
+                  <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-gold">
+                    {member.departments.join(" &middot; ")}
+                  </p>
+                  <ul className="mt-3.5 flex flex-wrap gap-1.5">
+                    {member.subjects.map((subject) => (
+                      <li
+                        key={subject}
+                        className="text-[11px] font-semibold text-blue-deep bg-blue-deep/[0.06] rounded-md px-2 py-1.5"
+                      >
+                        {subject}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
             ))}
           </div>
         </div>

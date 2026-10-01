@@ -36,6 +36,7 @@ import {
   Atom,
   Microscope,
   HandTap,
+  ChatCircleText,
   X,
 } from "@phosphor-icons/react";
 
@@ -75,6 +76,7 @@ const iconMap = {
   Atom,
   Microscope,
   HandTap,
+  ChatCircleText,
   X,
 } as const;
 
